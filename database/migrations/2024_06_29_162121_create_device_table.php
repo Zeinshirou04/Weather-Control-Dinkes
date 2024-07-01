@@ -22,17 +22,18 @@ return new class extends Migration
             $table->index('id', 'wac_id');
         });
 
-        Schema::create('device_measure', function (Blueprint $table) {
+        Schema::create('weather_data', function (Blueprint $table) {
             $table->id('id');
-            $table->decimal('so2', 2, 1);
-            $table->decimal('co2', 2, 1);
-            $table->decimal('no2', 2, 1);
-            $table->decimal('o3', 2, 1);
-            $table->decimal('pm25', 2, 1);
-            $table->decimal('pm10', 2, 1);
-            $table->timestamps();
-
             $table->foreignUuid('wac_id')->references('id')->on('devices');
+            $table->integer('wind_dir')->default(0);
+            $table->decimal('avg_wind_spd', 3, 2)->default(0.0);
+            $table->decimal('max_wind_spd', 3, 2)->default(0.0);
+            $table->decimal('rain_fall_ph', 3, 2)->default(0.0);
+            $table->decimal('rain_fall_pd', 3, 2)->default(0.0);
+            $table->decimal('temperature', 4, 2)->default(0.0);
+            $table->integer('humidity')->default(0);
+            $table->decimal('barometic_pressure', 6, 2)->default(0.0);
+            $table->timestamps();
         });
     }
 
@@ -41,6 +42,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('device');
+        Schema::dropIfExists('devices');
+        Schema::dropIfExists('weather_data');
     }
 };

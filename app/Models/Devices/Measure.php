@@ -9,16 +9,23 @@ class Measure extends Model
 {
     use HasFactory;
 
-    protected $table = 'device_measure';
+    protected $table;
+
+    public function __construct()
+    {
+        $this->table = env('MEASURE_TABLE_NAME');
+    }
 
     protected $fillable = [
         'wac_id',
-        'so2',
-        'co2',
-        'no2',
-        'o3',
-        'pm25',
-        'pm10',
+        'wind_dir',
+        'avg_wind_spd',
+        'max_wind_spd',
+        'rain_fall_ph',
+        'rain_fall_pd',
+        'temperature',
+        'humidity',
+        'barometric_pressure'
     ];
 
     protected $guarded = [];

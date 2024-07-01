@@ -19,27 +19,32 @@ class WebsocketDeviceController extends Controller
             'message' => 'Device is not registered, please ask the Admin to register a new device'
         ], 400);
         // return response()->json($request->except('wac'));
-        $measure = Measure::updateOrCreate(
-            ['wac_id' => $request->wac],
-            [
-                'so2' => $request->so2,
-                'co2' => $request->co2,
-                'no2' => $request->no2,
-                'o3' => $request->o3,
-                'pm25' => $request->pm25,
-                'pm10' => $request->pm10,
+        $measure = Measure::create(
+            ['wac_id' => $request->wac,
+                'wac_id' => $request->wac,
+                'wind_dir' => $request->wind_dir,
+                'avg_wind_spd' => $request->avg_wind_spd,
+                'max_wind_spd' => $request->max_wind_spd,
+                'rain_fall_ph' => $request->rain_fall_ph,
+                'rain_fall_pd' => $request->rain_fall_pd,
+                'temperature' => $request->temperature,
+                'humidity' => $request->humidity,
+                'barometric_pressure' => $request->barometric_pressure
             ]
         );
         try {
             $measure;
             return response()->json([
-                'message' => 'Data save success!'
+                'message' => 'Content saved successfully!',
+                'saved_at' => Carbon::now()
             ], 200);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th['error']
-            ],
-            500);
+            return response()->json(
+                [
+                    'error' => $th['error']
+                ],
+                500
+            );
         }
     }
 
