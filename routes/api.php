@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Device\WebsocketDeviceController;
 use App\Http\Middleware\ConfirmJsonContentType;
 
-Route::apiResource('device', WebsocketDeviceController::class)->except([
-    'index'
-])->middleware(ConfirmJsonContentType::class);
+Route::middleware([ConfirmJsonContentType::class])->group(function () {
+    Route::apiResource('device', WebsocketDeviceController::class)->except([
+        'index'
+    ]);
+});
+
