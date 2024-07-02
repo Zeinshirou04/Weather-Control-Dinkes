@@ -32,10 +32,10 @@ class ConfirmJsonContentType
             'humidity',
             'barometric_pressure'
         ];
-        if(!$request->has($cols)) return response()->json([
-            'message' => 'Content mismatch, empty or not completed, please re-check your content!',
-            'error' => $request->has($cols)
-        ], 400);
+        // if(!$request->has($cols)) return response()->json([
+        //     'message' => 'Content mismatch, empty or not completed, please re-check your content!',
+        //     'error' => $request->has($cols)
+        // ], 400);
         if(
             $request->validate([
                 'wac' => 'required|uuid',
