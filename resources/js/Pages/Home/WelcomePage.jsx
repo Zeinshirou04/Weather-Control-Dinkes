@@ -1,71 +1,81 @@
 import { Head } from "@inertiajs/react";
+import React from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import axios from "axios";
+
 import Home from "@/Layouts/HomeLayout";
 
 export default function Welcome() {
+    const responsive = {
+        desktop: {
+            breakpoint: {
+                max: 3000,
+                min: 1152,
+            },
+            items: 1,
+        },
+    };
+
+    axios
+        .get(
+            "https://newsapi.org/v2/top-headlines?country=id&apiKey=aee14bb439214f9ca918ba2c6ce6838d"
+        )
+        .then((response) => {
+            console.log(response.data);
+        });
+
+    const carouselItems = [
+        <div className="carousel-item active float-left w-full h-full">
+            <img
+                src="assets/img/smg1.jpg"
+                className="h-full w-full object-cover translate-y-12"
+                alt="Pemandangan Kota Semarang"
+            />
+        </div>,
+        <div className="carousel-item active float-left w-full h-full">
+            <img
+                src="assets/img/smg2.jpg"
+                className="h-full w-full object-cover"
+                alt="Pemandangan Kota Semarang"
+            />
+        </div>,
+    ];
+
     return (
         <Home>
-
+            {/* aee14bb439214f9ca918ba2c6ce6838d */}
             <Head title="Pantau Cuaca Kotamu!" />
 
-            <div class="grow mx-auto flex flex-col w-2/3 items-center">
-                <div class="w-full p-4 bg-teal-100/10">
-                    <div class="container mx-auto my-8">
-                        <div class="carousel relative shadow-2xl bg-black">
-                            <div class="carousel-inner relative overflow-hidden w-full">
-                                <div class="carousel-item active float-left w-full">
-                                    <img
-                                        src="assets/img/smg1.jpg"
-                                        class="block w-full"
-                                        alt="Pemandangan Kota Semarang"
-                                    />
-                                </div>
-                                {/* <div class="carousel-item active float-left w-full">
-                                    <img
-                                        src="assets/img/smg2.jpg"
-                                        class="block w-full"
-                                        alt="Pemandangan Kota Semarang"
-                                    />
-                                </div> */}
-                            </div>
-                        </div>
+            <div className="w-full h-52">
+                <Carousel
+                    className="h-full rounded-lg"
+                    responsive={responsive}
+                    autoPlay={true}
+                    infinite={true}
+                    autoPlaySpeed={3000}
+                    transitionDuration={150}
+                    removeArrowOnDeviceType={["desktop"]}
+                >
+                    {carouselItems}
+                </Carousel>
+            </div>
+
+            <article className="w-full flex flex-row gap-2 h-full mt-12">
+                <section className="w-3/4 flex flex-col gap-8">
+                    <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg"></div>
+                    <div className="w-full flex flex-row gap-8">
+                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg"></div>
+                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg"></div>
                     </div>
-                </div>
-            </div>
+                </section>
+                <aside className="w-1/4">
+                    <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg"></div>
+                </aside>
+            </article>
 
-            <div class="container mx-auto my-8 p-4  rounded">
-                <h2 class="text-2xl font-bold mb-4">
-                    Deskripsi Singkat Website
-                </h2>
-                <p>Deskripsi singkat mengenai tujuan dan fungsi website ini.</p>
-            </div>
-
-            <div class="container mx-auto my-8 p-4  rounded">
-                <h2 class="text-2xl font-bold mb-4">Fungsi Website</h2>
-                <ul class="list-disc list-inside">
-                    <li>Fungsi 1</li>
-                    <li>Fungsi 2</li>
-                    <li>Fungsi 3</li>
-                </ul>
-            </div>
-
-            <div class="container mx-auto my-8 p-4  rounded">
-                <h2 class="text-2xl font-bold mb-4">Kerjasama</h2>
-                <div class="flex space-x-4">
-                    <img
-                        src="assets/img/logoUdinus.png"
-                        alt="Udinus Logo"
-                        class="h-16"
-                    />
-                    <img
-                        src="assets/img/logoDinkes.png"
-                        alt="Dinkes Logo"
-                        class="h-16"
-                    />
-                </div>
-            </div>
-
-            <div class="container mx-auto my-8 p-4  rounded">
-                <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
+            <div className="container mx-auto my-8 p-4 rounded h-18">
+                <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
                 <p>Email: contact@website.com</p>
                 <p>Phone: +62 </p>
             </div>
