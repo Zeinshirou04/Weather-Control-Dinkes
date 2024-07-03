@@ -36,19 +36,17 @@ class ConfirmJsonContentType
             'message' => 'Content mismatch, empty or not completed, please re-check your content!',
             'error' => $request->has($cols)
         ], 400);
-        if(
-            $request->validate([
-                'wac' => 'required|uuid',
-                'wind_dir' => 'required|integer|digits:3',
-                'avg_wind_spd' => 'required|numeric|between:0,99.9',
-                'max_wind_spd' => 'required|numeric|between:0,99.9',
-                'rain_fall_ph' => 'required|numeric|between:0,99.9',
-                'rain_fall_pd' => 'required|numeric|between:0,99.9',
-                'temperature' => 'required|numeric|between:0,999.9',
-                'humidity' => 'required|integer|digits:3',
-                'barometric_pressure' => 'required|numeric|between:0,9999.99',
-            ])
-        ) return $next($request);
-        return $next($request);
+        $credentials = $request->validate([
+            'wac' => 'required|uuid',
+            'wind_dir' => 'required|integer|digits:3',
+            'avg_wind_spd' => 'required|numeric|between:0,999.99',
+            'max_wind_spd' => 'required|numeric|between:0,999.99',
+            'rain_fall_ph' => 'required|numeric|between:0,999.99',
+            'rain_fall_pd' => 'required|numeric|between:0,999.99',
+            'temperature' => 'required|numeric|between:0,999.99',
+            'humidity' => 'required|integer|digits:3',
+            'barometric_pressure' => 'required|numeric|between:0,9999.99',
+        ]);
+        if($credentials) return $next($request);
     }
 }
