@@ -18,11 +18,11 @@ export default function NavbarTop() {
                         <NavLink>
                             <h1 className="text-white text-md font-extralight">Bantuan</h1>
                         </NavLink>
-                        <button className="bg-white text-black py-1 px-4 rounded-lg transition duration-200 hover:bg-gray-200">
+                        {/* <button className="bg-white text-black py-1 px-4 rounded-lg transition duration-200 hover:bg-gray-200">
                             <p className="text-md">
                                 Login
                             </p>
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>
