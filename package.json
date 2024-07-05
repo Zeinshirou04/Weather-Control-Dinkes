@@ -20,6 +20,8 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@googlemaps/js-api-loader": "^1.16.6",
+        "@vis.gl/react-google-maps": "^1.1.0",
         "newsapi": "^2.4.1",
         "react-multi-carousel": "^2.8.5"
     }

@@ -57,6 +57,12 @@ class WebsocketDeviceController extends Controller
         try {
             $data = [
                 'status' => 'berhasil!',
+                'lat' => Device::where('id', $id)
+                    ->first()
+                    ->toArray()['latitude'],
+                'long' => Device::where('id', $id)
+                    ->first()
+                    ->toArray()['longitude'],
                 'data' => Measure::where('wac_id', $id)
                     ->orderBy('created_at', 'desc')
                     ->first()
