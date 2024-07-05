@@ -20,7 +20,8 @@ class WebsocketDeviceController extends Controller
         ], 400);
         // return response()->json($request->except('wac'));
         $measure = Measure::create(
-            ['wac_id' => $request->wac,
+            [
+                'wac_id' => $request->wac,
                 'wac_id' => $request->wac,
                 'wind_dir' => $request->wind_dir,
                 'avg_wind_spd' => $request->avg_wind_spd,
@@ -53,7 +54,21 @@ class WebsocketDeviceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $data = [
+                'status' => 'berhasil!',
+                'data' => Measure::where('wac_id', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->first()
+                    ->toArray()
+            ];
+        } catch (\Throwable $th) {
+            $data = [
+                'status' => 'data tidak ditemukan',
+                'data' => 'null',
+            ];
+        }
+        return response()->json($data);
     }
 
     /**

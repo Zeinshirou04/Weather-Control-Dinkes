@@ -19,11 +19,13 @@ export default function Welcome() {
 
     axios
         .get(
-            "https://newsapi.org/v2/top-headlines?country=id&apiKey=aee14bb439214f9ca918ba2c6ce6838d"
+            "https://newsdata.io/api/1/latest?apikey=pub_4786655fa8d619a9dadf8d21dced948677e52&country=id&q=cuaca"
         )
         .then((response) => {
             console.log(response.data);
         });
+    
+    axios.get()
 
     const carouselItems = [
         <div className="carousel-item active float-left w-full h-full">
