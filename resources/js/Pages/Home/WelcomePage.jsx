@@ -25,7 +25,11 @@ export default function Welcome() {
             console.log(response.data);
         });
     
-    axios.get()
+    axios.get("https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856", {
+        // data: '71f913f7-821b-3b2b-9494-79e2cd0a9856'
+    }).then((response) => {
+        console.log(response.data);
+    })
 
     const carouselItems = [
         <div className="carousel-item active float-left w-full h-full">
