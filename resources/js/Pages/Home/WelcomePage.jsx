@@ -7,7 +7,7 @@ import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 
 import Home from "@/Layouts/HomeLayout";
 
-export default function Welcome({ latitude, longitude }) {
+export default function Welcome({ googleApiKey }) {
     const responsive = {
         desktop: {
             breakpoint: {
@@ -138,7 +138,7 @@ export default function Welcome({ latitude, longitude }) {
                 <aside className="w-2/5 h-auto">
                     <div className="w-full h-full bg-[#A7D7C5]/40 shadow-md rounded-lg px-2 py-2">
                         <APIProvider
-                            apiKey={"AIzaSyA9zha9KW9svjEDpCcyEP0YpFBoRyU2H6E"}
+                            apiKey={googleApiKey}
                         >
                             <Map
                                 className="w-full h-full border-2 border-[#A7D7C5]"

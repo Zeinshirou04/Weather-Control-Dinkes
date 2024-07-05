@@ -34,6 +34,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'googleApiKey' => env('GOOGLE_API_KEY')
         ];
     }
 }
