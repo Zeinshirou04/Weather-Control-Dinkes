@@ -27,6 +27,9 @@ export default function Welcome() {
     
     axios.get("https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856", {
         // data: '71f913f7-821b-3b2b-9494-79e2cd0a9856'
+        headers: {
+            "User-Agent": 'Axios'
+        }
     }).then((response) => {
         console.log(response.data);
     })
