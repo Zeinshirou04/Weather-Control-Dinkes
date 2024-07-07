@@ -9,11 +9,21 @@ import Home from "@/Layouts/HomeLayout";
 
 export default function Welcome({ googleApiKey }) {
     const responsive = {
+        superLargeDesktop: {
+            // the naming can be any, depends on you.
+            breakpoint: { max: 4000, min: 3000 },
+            items: 1,
+        },
         desktop: {
-            breakpoint: {
-                max: 3000,
-                min: 1152,
-            },
+            breakpoint: { max: 3000, min: 1024 },
+            items: 1,
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 1,
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
             items: 1,
         },
     };
@@ -31,15 +41,11 @@ export default function Welcome({ googleApiKey }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async () => { 
             try {
                 const response = await axios.get(
+                    // "http://localhost:8000/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
                     "https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
-                    {
-                        headers: {
-                            "User-Agent": "Axios",
-                        },
-                    }
                 );
                 setData(response.data);
             } catch (err) {
@@ -52,12 +58,19 @@ export default function Welcome({ googleApiKey }) {
         fetchData();
     }, []);
 
-    if (loading) return <div className="w-svw h-svh flex flex-col justify-center items-center">
-        <img className="w-32" src="assets/img/logoDinkes.png" alt="Logo Kementrian Kesehatan" />
-        <div className="mt-8">
-            <p className="text-lg">Mohon tunggu...</p>
-        </div>
-    </div>;
+    if (loading)
+        return (
+            <div className="w-svw h-svh flex flex-col justify-center items-center">
+                <img
+                    className="w-32"
+                    src="assets/img/logoDinkes.png"
+                    alt="Logo Kementrian Kesehatan"
+                />
+                <div className="mt-8">
+                    <p className="text-lg">Mohon tunggu...</p>
+                </div>
+            </div>
+        );
     // if (error) return <div>Error: {error.message}</div>;
 
     // console.log(data);
@@ -124,7 +137,8 @@ export default function Welcome({ googleApiKey }) {
                                     alt="Cloud Icon"
                                 />
                                 <p className="text-lg">
-                                    Kecepatan angin berada pada {data.data["avg_wind_spd"]}
+                                    Kecepatan angin berada pada{" "}
+                                    {data.data["avg_wind_spd"]}
                                     <span>m/s</span>
                                 </p>
                             </div>
@@ -137,9 +151,7 @@ export default function Welcome({ googleApiKey }) {
                 </section>
                 <aside className="w-2/5 h-auto">
                     <div className="w-full h-full bg-[#A7D7C5]/40 shadow-md rounded-lg px-2 py-2">
-                        <APIProvider
-                            apiKey={googleApiKey}
-                        >
+                        <APIProvider apiKey={googleApiKey}>
                             <Map
                                 className="w-full h-full border-2 border-[#A7D7C5]"
                                 defaultCenter={{
