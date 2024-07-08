@@ -41,11 +41,11 @@ export default function Welcome({ googleApiKey }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => { 
+        const fetchData = async () => {
             try {
                 const response = await axios.get(
                     // "http://localhost:8000/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
-                    "https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
+                    "https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856"
                 );
                 setData(response.data);
             } catch (err) {
@@ -137,7 +137,7 @@ export default function Welcome({ googleApiKey }) {
                                     alt="Cloud Icon"
                                 />
                                 <p className="text-lg">
-                                    Kecepatan angin berada pada{" "}
+                                    Kecepatan angin rata-rata berada pada{" "}
                                     {data.data["avg_wind_spd"]}
                                     <span>m/s</span>
                                 </p>
@@ -145,8 +145,35 @@ export default function Welcome({ googleApiKey }) {
                         </div>
                     </div>
                     <div className="w-full flex flex-row gap-8">
-                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg"></div>
-                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg"></div>
+                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg px-6 py-4">
+                            <p className="text-md">
+                                Kecepatan Angin Tertinggi:{" "}
+                                {data.data["max_wind_spd"]}
+                                <span>m/s</span>
+                            </p>
+                            <p className="text-md">
+                                Curah Hujan:{" "}
+                                {data.data["rain_fall_ph"]}
+                                <span>mm/h</span>
+                            </p>
+                            <p className="text-md">
+                                Curah Hujan:{" "}
+                                {data.data["rain_fall_pd"]}
+                                <span>mm/d</span>
+                            </p>
+                            <p className="text-md">
+                                Humidity:{" "}
+                                {data.data["humidity"]}
+                                <span>%</span>
+                            </p>
+                        </div>
+                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg px-6 py-4">
+                            <p className="text-md">
+                                Tekanan Barometric Sebesar:{" "}
+                                {data.data["barometric_pressure"]}
+                                <span>hPa</span>
+                            </p>
+                        </div>
                     </div>
                 </section>
                 <aside className="w-2/5 h-auto">
