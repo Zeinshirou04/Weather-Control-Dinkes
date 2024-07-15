@@ -55,7 +55,9 @@ export default function Welcome({ googleApiKey }) {
             }
         };
 
-        fetchData();
+        setInterval(() => {
+            fetchData();
+        }, 2000);
     }, []);
 
     if (loading)
@@ -146,11 +148,18 @@ export default function Welcome({ googleApiKey }) {
                     </div>
                     <div className="w-full flex flex-row gap-8">
                         <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg px-6 py-4">
-                            <p className="text-md">
-                                Kecepatan Angin Tertinggi:{" "}
-                                {data.data["max_wind_spd"]}
-                                <span>m/s</span>
-                            </p>
+                            <div className="flex flex-row gap-4">
+                                <img
+                                    className="w-12"
+                                    src="assets/svg/air.svg"
+                                    alt="Cloud Icon"
+                                />
+                                <p className="text-md">
+                                    Kecepatan Angin Tertinggi:{" "}
+                                    {data.data["max_wind_spd"]}
+                                    <span>m/s</span>
+                                </p>
+                            </div>
                             <p className="text-md">
                                 Curah Hujan:{" "}
                                 {data.data["rain_fall_ph"]}
