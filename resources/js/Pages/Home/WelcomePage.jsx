@@ -117,7 +117,7 @@ export default function Welcome({ googleApiKey }) {
                     <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col py-2">
                         <div className="h-12 w-full border-b-gray-400 border-b-2 px-6">
                             <h5 className="font-semibold text-gray-900">
-                                Cuaca dini hari di, Miroto
+                                Cuaca dini hari di Bangunharjo, Semarang Tengah
                             </h5>
                         </div>
                         <div className="h-full w-full flex flex-col gap-2 px-6 py-2">
@@ -191,8 +191,8 @@ export default function Welcome({ googleApiKey }) {
                             <Map
                                 className="w-full h-full border-2 border-[#A7D7C5]"
                                 defaultCenter={{
-                                    lat: data.lat,
-                                    lng: data.long,
+                                    lat: -6.9781864,
+                                    lng: 110.4229518,
                                 }}
                                 defaultZoom={18}
                                 gestureHandling={"greedy"}
@@ -200,8 +200,8 @@ export default function Welcome({ googleApiKey }) {
                             >
                                 <Marker
                                     position={{
-                                        lat: data.lat,
-                                        lng: data.long,
+                                        lat: -6.9781864,
+                                        lng: 110.4229518,
                                     }}
                                 />
                             </Map>
@@ -210,11 +210,11 @@ export default function Welcome({ googleApiKey }) {
                 </aside>
             </article>
 
-            <div className="container mx-auto my-8 p-4 rounded h-18">
+            {/* <div className="container mx-auto my-8 p-4 rounded h-18">
                 <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
                 <p>Email: contact@website.com</p>
                 <p>Phone: +62 </p>
-            </div>
+            </div> */}
         </Home>
     );
 }
