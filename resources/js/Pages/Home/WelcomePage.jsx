@@ -6,7 +6,7 @@ import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 
 import Home from "@/Layouts/HomeLayout";
 
-export default function Welcome({ googleApiKey }) {
+export default function Welcome({ googleApiKey, news }) {
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -27,42 +27,74 @@ export default function Welcome({ googleApiKey }) {
         },
     };
 
-    const [news, setNews] = useState(null);
-
     const [data, setData] = useState(null);
+    const [location, setLocation] = useState({
+        latitude: 0,
+        longitude: 0,
+    });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [map, setMap] = useState(null);
 
     const fetchData = async () => {
-        try {
-            // let response = await axios.get(
-            //     // "http://localhost:8000/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
-            //     "https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856"
-            // );
-            // setData(response.data);
-            let response = await axios.get(
-                "https://newsdata.io/api/1/latest?apikey=pub_4786655fa8d619a9dadf8d21dced948677e52&country=id&q=cuaca"
-            );
-
-            setNews(response.data.results);
-        } catch (err) {
-            setError(err);
-            setTimeout(() => {
-                setError(null);
-                setLoading(false);
-            }, 2000);
-        } finally {
-            setLoading(false);
-        }
+        const response = await axios.get(
+            // "http://localhost:8000/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
+            "https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856"
+        );
+        setData(response.data.data);
+        setLocation({
+            latitude: response.data.lat,
+            longitude: response.data.long,
+        });
     };
 
     useEffect(() => {
-        fetchData();
+        const intervalId = setInterval(() => {
+            console.log("Fetching...");
+            try {
+                fetchData();
+            } catch (err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        }, 3000);
 
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 1000);
+        if (!data)
+            setData({
+                wind_dir: 120,
+                avg_wind_spd: 6,
+                max_wind_spd: 12.5,
+                rain_fall_ph: 0.1,
+                rain_fall_pd: 0.2,
+                temperature: 31,
+                humidity: 25,
+                barometric_pressure: 1002.23,
+            });
+        return () => clearInterval(intervalId);
     }, []);
+
+    useEffect(() => {
+        setMap(
+            <Map
+                className="w-full h-full border-2 border-[#A7D7C5]"
+                center={{
+                    lat: location.latitude,
+                    lng: location.longitude,
+                }}
+                defaultZoom={18}
+                gestureHandling={"greedy"}
+                // disableDefaultUI={true}
+            >
+                <Marker
+                    position={{
+                        lat: location.latitude,
+                        lng: location.longitude,
+                    }}
+                />
+            </Map>
+        );
+    }, [location]);
 
     if (loading)
         return (
@@ -121,105 +153,174 @@ export default function Welcome({ googleApiKey }) {
                 </Carousel>
             </div>
 
-            <article className="w-full flex flex-row gap-2 h-full mt-12">
-                <section className="w-3/5 flex flex-col gap-8">
-                    <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col py-2">
-                        <div className="h-12 w-full border-b-gray-400 border-b-2 px-6">
-                            <h5 className="font-semibold text-gray-900">
-                                Cuaca dini hari di Bangunharjo, Semarang Tengah
-                            </h5>
-                        </div>
-                        <div className="h-full w-full flex flex-col gap-2 px-6 py-2">
-                            <div className="w-full flex flex-row items-center gap-2">
-                                <div className="w-14">
-                                    <i class="fa-solid fa-temperature-three-quarters text-5xl text-gray-500"></i>
-                                </div>
-                                <p className="text-lg">
-                                    Suhu berada pada{" "}
-                                    <strong>
-                                        31
-                                        <span>&deg;C</span>
-                                    </strong>
-                                </p>
+            <section className="w-full flex flex-col gap-2 h-full mt-12 gap-6">
+                <div className="w-full flex flex-row gap-2 h-full">
+                    <article className="w-3/5 flex flex-col gap-8">
+                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col py-2">
+                            <div className="h-12 w-full border-b-gray-400 border-b-2 px-6">
+                                <h5 className="font-semibold text-gray-900">
+                                    Cuaca dini hari di Bangunharjo, Semarang
+                                    Tengah
+                                </h5>
                             </div>
-                            <div className="w-full flex flex-row items-center gap-2">
-                                <div className="w-14">
-                                    <i class="fa-solid fa-wind text-5xl text-gray-500"></i>
-                                </div>
-                                <p className="text-lg">
-                                    Kecepatan angin rata-rata berada pada{" "}
-                                    <strong>
-                                        60
-                                        <span>m/s</span>
-                                    </strong>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-full flex flex-row gap-8">
-                        <div className="w-full bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col gap-4">
-                            <header className="border-b-gray-400 border-2 px-6 py-1">
-                                <h4 className="text-lg font-bold">
-                                    Prediksi Cuaca
-                                </h4>
-                            </header>
-                            <div className="w-full flex flex-col px-6 pb-2 gap-4">
-                                <div className="flex flex-row gap-4 items-center">
+                            <div className="h-full w-full flex flex-col gap-2 px-6 py-2">
+                                <div className="w-full flex flex-row items-center gap-2">
                                     <div className="w-14">
-                                        <i class="fa-solid fa-cloud text-5xl text-gray-500"></i>
+                                        <i class="fa-solid fa-compass text-5xl text-gray-500"></i>
                                     </div>
-                                    <p className="text-md">
-                                        Cuaca saat ini:{" "}
-                                        <strong>Cerah Berawan</strong>
+                                    <p className="text-lg">
+                                        Derajat Arah Angin{" "}
+                                        <strong>
+                                            {data.wind_dir / 1}
+                                            <span>&deg;</span>
+                                        </strong>
                                     </p>
                                 </div>
-                                <div className="flex flex-row gap-4 items-center">
+                                <div className="w-full flex flex-row items-center gap-2">
                                     <div className="w-14">
-                                        <i class="fa-solid fa-cloud-rain text-6xl text-gray-500"></i>
+                                        <i class="fa-solid fa-wind text-5xl text-gray-500"></i>
                                     </div>
-                                    <p className="text-md">
-                                        Curah hujan:{" "}
+                                    <p className="text-lg">
+                                        Kecepatan angin rata-rata berada pada{" "}
                                         <strong>
-                                            1<span>mm</span>
+                                            {data.avg_wind_spd}
+                                            <span>m/s</span>
                                         </strong>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className="w-full bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col gap-4">
+                        <div className="w-full flex flex-row gap-8">
+                            <div className="w-full bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col gap-4">
+                                <header className="border-b-gray-400 border-2 px-6 py-1">
+                                    <h4 className="text-lg font-bold">
+                                        Prediksi Cuaca
+                                    </h4>
+                                </header>
+                                <div className="w-full grid grid-rows-2 px-6 pb-2 gap-4">
+                                    <div className="flex flex-row gap-4 items-center">
+                                        <div className="w-14">
+                                            <i class="fa-solid fa-cloud text-5xl text-gray-500"></i>
+                                        </div>
+                                        <p className="text-md">
+                                            Cuaca saat ini:{" "}
+                                            <strong>Cerah Berawan</strong>
+                                        </p>
+                                    </div>
+                                    <div className="flex flex-row gap-4 items-center">
+                                        <div className="w-14">
+                                            <i class="fa-solid fa-cloud-rain text-6xl text-gray-500"></i>
+                                        </div>
+                                        <p className="text-md">
+                                            Curah hujan:{" "}
+                                            <strong>
+                                                1<span>mm</span>
+                                            </strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col gap-4">
+                                <header className="border-b-gray-400 border-2 px-6 py-1">
+                                    <h4 className="text-lg font-bold">
+                                        Data Lain
+                                    </h4>
+                                </header>
+                                <div className="w-full flex flex-col px-6 pb-2 gap-2">
+                                    <p className="text-md">
+                                        Suhu:{" "}
+                                        <strong>
+                                            {data.temperature / 1}&deg;C
+                                        </strong>
+                                    </p>
+                                    <p className="text-md">
+                                        Kelembapan:{" "}
+                                        <strong>{data.humidity}RH</strong>
+                                    </p>
+                                    <p className="text-md">
+                                        Kecepatan Angin (Maximal):{" "}
+                                        <strong>{data.max_wind_spd}m/s</strong>
+                                    </p>
+                                    <p className="text-md">
+                                        Curah Hujan (Perjam):{" "}
+                                        <strong>{data.rain_fall_ph}mm</strong>
+                                    </p>
+                                    <p className="text-md">
+                                        Curah Hujan (Perhari):{" "}
+                                        <strong>{data.rain_fall_pd}mm</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <aside className="w-2/5 h-auto">
+                        <div className="w-full h-full bg-[#A7D7C5]/40 shadow-md rounded-lg px-2 py-2">
+                            <APIProvider apiKey={googleApiKey}>
+                                {map}
+                            </APIProvider>
+                        </div>
+                    </aside>
+                </div>
+                <div className="w-full flex flex-row gap-2">
+                    <section className="w-3/5">
+                        <header>
+                            <h4 className="text-xl font-bold">
+                                Spesifikasi Alat
+                            </h4>
+                        </header>
+                        <article className="grid grid-flow-row">
+                            <p className="text-md">
+                                Sensor Suhu: Bilangan Bulat dengan satuan
+                                Derajat Celcius (&deg;C)
+                            </p>
+                            <p className="text-md">
+                                Sensor Kelembapan: Bilangan Asli dengan satuan
+                                Persen (%)
+                            </p>
+                            <p className="text-md">
+                                Sensor Tekanan Udara: Bilangan Asli dengan
+                                satuan Atmosfer (atm)
+                            </p>
+                            <p className="text-md">
+                                Sensor Arah Angin: Bilangan Asli dengan satuan
+                                Derajat (&deg;)
+                            </p>
+                            <p className="text-md">
+                                Sensor Kecepatan Angin: Bilangan Asli dengan
+                                satuan Meter per Sekon (m/s)
+                            </p>
+                        </article>
+                    </section>
+                    <aside className="w-2/5 h-auto">
+                        <div className="w-full h-full bg-[#A7D7C5]/40 shadow-md rounded-lg">
                             <header className="border-b-gray-400 border-2 px-6 py-1">
                                 <h4 className="text-lg font-bold">
                                     Berita Terkini
                                 </h4>
                             </header>
-                            <div className="w-full flex flex-col px-6 pb-2 gap-4"></div>
+                            <section className="w-full grid grid-flow-col px-6 py-2 gap-3">
+                                <figure className="w-24 h-24">
+                                    <img
+                                        className="w-full h-full bg-cover"
+                                        src={news[0].fav}
+                                        alt=""
+                                    />
+                                </figure>
+                                <article className="w-full col-span-4">
+                                    <header>
+                                        <h6 className="text-md font-bold">
+                                            {news[0].titel}
+                                        </h6>
+                                    </header>
+                                    <p className="text-sm">
+                                        {news[0].tgl_publish}
+                                    </p>
+                                </article>
+                            </section>
                         </div>
-                    </div>
-                </section>
-                <aside className="w-2/5 h-auto">
-                    <div className="w-full h-full bg-[#A7D7C5]/40 shadow-md rounded-lg px-2 py-2">
-                        <APIProvider apiKey={googleApiKey}>
-                            <Map
-                                className="w-full h-full border-2 border-[#A7D7C5]"
-                                defaultCenter={{
-                                    lat: -6.9781864,
-                                    lng: 110.4229518,
-                                }}
-                                defaultZoom={18}
-                                gestureHandling={"greedy"}
-                                // disableDefaultUI={true}
-                            >
-                                <Marker
-                                    position={{
-                                        lat: -6.9781864,
-                                        lng: 110.4229518,
-                                    }}
-                                />
-                            </Map>
-                        </APIProvider>
-                    </div>
-                </aside>
-            </article>
+                    </aside>
+                </div>
+            </section>
         </Home>
     );
 }
