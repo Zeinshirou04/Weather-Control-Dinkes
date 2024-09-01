@@ -28,36 +28,41 @@ export default function Welcome({ googleApiKey }) {
         },
     };
 
-    // axios
-    //     .get(
-    //         "https://newsdata.io/api/1/latest?apikey=pub_4786655fa8d619a9dadf8d21dced948677e52&country=id&q=cuaca"
-    //     )
-    //     .then((response) => {
-    //         console.log(response.data);
-    //     });
+    const [news, setNews] = useState(null);
 
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    // "http://localhost:8000/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
-                    "https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856"
-                );
-                setData(response.data);
-            } catch (err) {
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchData = async () => {
+        try {
+            // let response = await axios.get(
+            //     // "http://localhost:8000/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856",
+            //     "https://weather.robotlintang.id/api/device/71f913f7-821b-3b2b-9494-79e2cd0a9856"
+            // );
+            // setData(response.data);
+            let response = await axios.get(
+                "https://newsdata.io/api/1/latest?apikey=pub_4786655fa8d619a9dadf8d21dced948677e52&country=id&q=cuaca"
+            );
 
-        setInterval(() => {
-            fetchData();
-        }, 2000);
+            setNews(response.data.results);
+        } catch (err) {
+            setError(err);
+            setTimeout(() => {
+                setError(null);
+                setLoading(false);
+            }, 2000);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 1000);
     }, []);
 
     if (loading)
@@ -73,7 +78,12 @@ export default function Welcome({ googleApiKey }) {
                 </div>
             </div>
         );
-    // if (error) return <div>Error: {error.message}</div>;
+    if (error)
+        return (
+            <div className="w-svw h-svh text-center flex flex-col justify-center">
+                <p>Error: {error.message}</p>
+            </div>
+        );
 
     // console.log(data);
 
@@ -122,66 +132,68 @@ export default function Welcome({ googleApiKey }) {
                         </div>
                         <div className="h-full w-full flex flex-col gap-2 px-6 py-2">
                             <div className="w-full flex flex-row items-center gap-2">
-                                <img
-                                    className="w-12"
-                                    src="assets/svg/cloud.svg"
-                                    alt="Cloud Icon"
-                                />
+                                <div className="w-14">
+                                    <i class="fa-solid fa-temperature-three-quarters text-5xl text-gray-500"></i>
+                                </div>
                                 <p className="text-lg">
-                                    Suhu berada pada {data.data["temperature"]}
-                                    <span>&deg;C</span>
+                                    Suhu berada pada{" "}
+                                    <strong>
+                                        31
+                                        <span>&deg;C</span>
+                                    </strong>
                                 </p>
                             </div>
                             <div className="w-full flex flex-row items-center gap-2">
-                                <img
-                                    className="w-12"
-                                    src="assets/svg/air.svg"
-                                    alt="Cloud Icon"
-                                />
+                                <div className="w-14">
+                                    <i class="fa-solid fa-wind text-5xl text-gray-500"></i>
+                                </div>
                                 <p className="text-lg">
                                     Kecepatan angin rata-rata berada pada{" "}
-                                    {data.data["avg_wind_spd"]}
-                                    <span>m/s</span>
+                                    <strong>
+                                        60
+                                        <span>m/s</span>
+                                    </strong>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div className="w-full flex flex-row gap-8">
-                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg px-6 py-4">
-                            <div className="flex flex-row gap-4">
-                                <img
-                                    className="w-12"
-                                    src="assets/svg/air.svg"
-                                    alt="Cloud Icon"
-                                />
-                                <p className="text-md">
-                                    Kecepatan Angin Tertinggi:{" "}
-                                    {data.data["max_wind_spd"]}
-                                    <span>m/s</span>
-                                </p>
+                        <div className="w-full bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col gap-4">
+                            <header className="border-b-gray-400 border-2 px-6 py-1">
+                                <h4 className="text-lg font-bold">
+                                    Prediksi Cuaca
+                                </h4>
+                            </header>
+                            <div className="w-full flex flex-col px-6 pb-2 gap-4">
+                                <div className="flex flex-row gap-4 items-center">
+                                    <div className="w-14">
+                                        <i class="fa-solid fa-cloud text-5xl text-gray-500"></i>
+                                    </div>
+                                    <p className="text-md">
+                                        Cuaca saat ini:{" "}
+                                        <strong>Cerah Berawan</strong>
+                                    </p>
+                                </div>
+                                <div className="flex flex-row gap-4 items-center">
+                                    <div className="w-14">
+                                        <i class="fa-solid fa-cloud-rain text-6xl text-gray-500"></i>
+                                    </div>
+                                    <p className="text-md">
+                                        Curah hujan:{" "}
+                                        <strong>
+                                            1<span>mm</span>
+                                        </strong>
+                                    </p>
+                                </div>
                             </div>
-                            <p className="text-md">
-                                Curah Hujan:{" "}
-                                {data.data["rain_fall_ph"]}
-                                <span>mm/h</span>
-                            </p>
-                            <p className="text-md">
-                                Curah Hujan:{" "}
-                                {data.data["rain_fall_pd"]}
-                                <span>mm/d</span>
-                            </p>
-                            <p className="text-md">
-                                Humidity:{" "}
-                                {data.data["humidity"]}
-                                <span>%</span>
-                            </p>
                         </div>
-                        <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg px-6 py-4">
-                            <p className="text-md">
-                                Tekanan Barometric Sebesar:{" "}
-                                {data.data["barometric_pressure"]}
-                                <span>hPa</span>
-                            </p>
+                        <div className="w-full bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col gap-4">
+                            <header className="border-b-gray-400 border-2 px-6 py-1">
+                                <h4 className="text-lg font-bold">
+                                    Berita Terkini
+                                </h4>
+                            </header>
+                            <div className="w-full flex flex-col px-6 pb-2 gap-4"></div>
                         </div>
                     </div>
                 </section>
@@ -209,12 +221,6 @@ export default function Welcome({ googleApiKey }) {
                     </div>
                 </aside>
             </article>
-
-            {/* <div className="container mx-auto my-8 p-4 rounded h-18">
-                <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-                <p>Email: contact@website.com</p>
-                <p>Phone: +62 </p>
-            </div> */}
         </Home>
     );
 }
