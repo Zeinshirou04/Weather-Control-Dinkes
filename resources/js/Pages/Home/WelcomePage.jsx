@@ -1,7 +1,7 @@
 import { Head } from "@inertiajs/react";
 import { React, useState, useEffect } from "react";
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+// import "react-multi-carousel/lib/styles.css";
 import axios from "axios";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 
