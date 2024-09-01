@@ -40,13 +40,13 @@ class ConfirmJsonContentType
         ], 400);
         $credentials = $request->validate([
             'wac' => 'required|uuid',
-            'wind_dir' => 'required|integer|min:1|digits_between:0,3',
+            'wind_dir' => 'required|integer|min:0|digits_between:0,3',
             'avg_wind_spd' => 'required|numeric|between:0,999.99',
             'max_wind_spd' => 'required|numeric|between:0,999.99',
             'rain_fall_ph' => 'required|numeric|between:0,999.99',
             'rain_fall_pd' => 'required|numeric|between:0,999.99',
             'temperature' => 'required|numeric|between:0,999.99',
-            'humidity' => 'required|integer|min:1|digits_between:0,3',
+            'humidity' => 'required|integer|min:0|digits_between:0,3',
             'barometric_pressure' => 'required|numeric|between:0,9999.99',
         ]);
         if($credentials) return $next($request);
