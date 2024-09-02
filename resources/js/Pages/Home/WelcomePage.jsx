@@ -303,12 +303,18 @@ export default function Welcome({ googleApiKey, news }) {
                                     <img
                                         className="w-full h-full bg-cover"
                                         src={news[0].fav}
-                                        alt=""
+                                        alt="News Image"
+                                        onError={(e) =>
+                                            (e.target.src =
+                                                "https://img.freepik.com/premium-vector/image-available-icon_268104-3618.jpg'")
+                                        }
                                     />
                                 </figure>
                                 <article className="w-full col-span-4">
                                     <header>
-                                        <a href={`https://semarangkota.go.id/p/${news[0].id}/${news[0].url}`}>
+                                        <a
+                                            href={`https://semarangkota.go.id/p/${news[0].id}/${news[0].url}`}
+                                        >
                                             <h6 className="text-md font-bold hover:underline">
                                                 {news[0].titel}
                                             </h6>
