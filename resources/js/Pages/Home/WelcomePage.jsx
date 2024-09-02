@@ -6,7 +6,7 @@ import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 
 import Home from "@/Layouts/HomeLayout";
 
-export default function Welcome({  }) {
+export default function Welcome({ news }) {
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -35,7 +35,7 @@ export default function Welcome({  }) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [map, setMap] = useState(null);
-    const [news, setNews] = useState(Array(10));
+    // const [news, setNews] = useState(Array(10));
 
     const fetchData = async () => {
         const response = await axios.get(
@@ -49,28 +49,28 @@ export default function Welcome({  }) {
         });
     };
 
-    const fetchNews = async () => {
-        try {
-            const response = await axios.get(
-                "https://semarangkota.go.id/packages/rss/", {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                    }
-                }
-            );
-            console.log(response);
-        } catch (err) {
-            setNews(
-                Array.from(10, () => ({
-                    id: "dummy_id",
-                    titel: "Dummy Title",
-                    url: "https://semarangkota.go.id/",
-                    tgl_publish: "2024-03-18",
-                    fav: "https://semarangkota.go.id/packages/upload/photo/noimage.jpg",
-                }))
-            );
-        }
-    };
+    // const fetchNews = async () => {
+    //     try {
+    //         const response = await axios.get(
+    //             "https://semarangkota.go.id/packages/rss/", {
+    //                 headers: {
+    //                     'Access-Control-Allow-Origin': '*',
+    //                 }
+    //             }
+    //         );
+    //         console.log(response);
+    //     } catch (err) {
+    //         setNews(
+    //             Array.from(10, () => ({
+    //                 id: "dummy_id",
+    //                 titel: "Dummy Title",
+    //                 url: "https://semarangkota.go.id/",
+    //                 tgl_publish: "2024-03-18",
+    //                 fav: "https://semarangkota.go.id/packages/upload/photo/noimage.jpg",
+    //             }))
+    //         );
+    //     }
+    // };
 
     const googleApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
