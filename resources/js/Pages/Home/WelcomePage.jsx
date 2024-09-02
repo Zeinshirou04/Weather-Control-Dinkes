@@ -6,7 +6,7 @@ import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 
 import Home from "@/Layouts/HomeLayout";
 
-export default function Welcome({ googleApiKey, news }) {
+export default function Welcome({  }) {
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -35,6 +35,7 @@ export default function Welcome({ googleApiKey, news }) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [map, setMap] = useState(null);
+    const [news, setNews] = useState(Array(10));
 
     const fetchData = async () => {
         const response = await axios.get(
@@ -47,6 +48,35 @@ export default function Welcome({ googleApiKey, news }) {
             longitude: response.data.long,
         });
     };
+
+    const fetchNews = async () => {
+        try {
+            const response = await axios.get(
+                "https://semarangkota.go.id/packages/rss/", {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                    }
+                }
+            );
+            console.log(response);
+        } catch (err) {
+            setNews(
+                Array.from(10, () => ({
+                    id: "dummy_id",
+                    titel: "Dummy Title",
+                    url: "https://semarangkota.go.id/",
+                    tgl_publish: "2024-03-18",
+                    fav: "https://semarangkota.go.id/packages/upload/photo/noimage.jpg",
+                }))
+            );
+        }
+    };
+
+    const googleApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
+    useEffect(() => {
+        return fetchNews();
+    }, [])
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -305,22 +335,25 @@ export default function Welcome({ googleApiKey, news }) {
                         <article className="flex flex-row gap-8">
                             <div className="max-w-xl">
                                 <p className="text-md max-w-xl">
-                                    Sensor Suhu: Bilangan Bulat
-                                    Derajat Celcius (&deg;C)
+                                    Sensor Suhu: Bilangan Bulat Derajat Celcius
+                                    (&deg;C)
                                 </p>
                                 <p className="text-md max-w-xl">
                                     Sensor Kelembapan: Bilangan Asli Persen (%)
                                 </p>
                                 <p className="text-md max-w-xl">
-                                    Sensor Tekanan Udara: Bilangan Asli Atmosfer (atm)
+                                    Sensor Tekanan Udara: Bilangan Asli Atmosfer
+                                    (atm)
                                 </p>
                             </div>
                             <div className="max-w-xl">
                                 <p className="text-md max-w-xl">
-                                    Sensor Arah Angin: Bilangan Asli Derajat (&deg;)
+                                    Sensor Arah Angin: Bilangan Asli Derajat
+                                    (&deg;)
                                 </p>
                                 <p className="text-md max-w-xl">
-                                    Sensor Kecepatan Angin: Bilangan Asli Meter per Sekon (m/s)
+                                    Sensor Kecepatan Angin: Bilangan Asli Meter
+                                    per Sekon (m/s)
                                 </p>
                             </div>
                         </article>
