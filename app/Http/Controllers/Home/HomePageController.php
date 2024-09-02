@@ -31,7 +31,7 @@ class HomePageController extends Controller
         }
 
         $data = [
-            "news" => $contents
+            "news" => array_slice($contents, 0, 10)
         ];
         return Inertia::render('Home/WelcomePage', $data);
     }

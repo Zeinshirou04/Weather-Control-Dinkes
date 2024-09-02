@@ -118,6 +118,39 @@ export default function Welcome({ googleApiKey, news }) {
 
     // console.log(data);
 
+    let newsBody = [];
+
+    news.forEach((el) => {
+        newsBody.push(
+            <section className="w-full grid grid-flow-col px-6 py-2 gap-3">
+                <figure className="w-24 h-24">
+                    <img
+                        className="w-full h-full bg-cover"
+                        src={el.fav}
+                        alt="News Image"
+                        onError={(e) =>
+                            (e.target.src =
+                                "https://img.freepik.com/premium-vector/image-available-icon_268104-3618.jpg")
+                        }
+                    />
+                </figure>
+                <article className="w-full col-span-4">
+                    <header>
+                        <a
+                            target="_blank"
+                            href={`https://semarangkota.go.id/p/${el.id}/${el.url}`}
+                        >
+                            <h6 className="text-md font-bold hover:underline">
+                                {el.titel}
+                            </h6>
+                        </a>
+                    </header>
+                    <p className="text-sm">{el.tgl_publish}</p>
+                </article>
+            </section>
+        );
+    });
+
     const carouselItems = [
         <div className="carousel-item active float-left w-full h-full">
             <img
@@ -153,12 +186,12 @@ export default function Welcome({ googleApiKey, news }) {
                 </Carousel>
             </div>
 
-            <section className="w-full flex flex-col gap-2 h-full mt-12 gap-6">
+            <section className="w-full flex flex-col gap-8 h-full mt-12">
                 <div className="w-full flex flex-row gap-2 h-full">
                     <article className="w-3/5 flex flex-col gap-8">
                         <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col py-2">
                             <div className="h-12 w-full border-b-gray-400 border-b-2 px-6">
-                                <h5 className="font-semibold text-gray-900">
+                                <h5 className="font-semibold text-gray-900 text-lg">
                                     Cuaca dini hari di Bangunharjo, Semarang
                                     Tengah
                                 </h5>
@@ -214,7 +247,8 @@ export default function Welcome({ googleApiKey, news }) {
                                         <p className="text-md">
                                             Curah hujan:{" "}
                                             <strong>
-                                                {data.rain_fall_ph}<span>mm</span>
+                                                {data.rain_fall_ph}
+                                                <span>mm</span>
                                             </strong>
                                         </p>
                                     </div>
@@ -262,71 +296,47 @@ export default function Welcome({ googleApiKey, news }) {
                     </aside>
                 </div>
                 <div className="w-full flex flex-row gap-2">
-                    <section className="w-3/5">
+                    <section className="w-full">
                         <header>
                             <h4 className="text-xl font-bold">
                                 Spesifikasi Alat
                             </h4>
                         </header>
-                        <article className="grid grid-flow-row">
-                            <p className="text-md">
-                                Sensor Suhu: Bilangan Bulat dengan satuan
-                                Derajat Celcius (&deg;C)
-                            </p>
-                            <p className="text-md">
-                                Sensor Kelembapan: Bilangan Asli dengan satuan
-                                Persen (%)
-                            </p>
-                            <p className="text-md">
-                                Sensor Tekanan Udara: Bilangan Asli dengan
-                                satuan Atmosfer (atm)
-                            </p>
-                            <p className="text-md">
-                                Sensor Arah Angin: Bilangan Asli dengan satuan
-                                Derajat (&deg;)
-                            </p>
-                            <p className="text-md">
-                                Sensor Kecepatan Angin: Bilangan Asli dengan
-                                satuan Meter per Sekon (m/s)
-                            </p>
+                        <article className="flex flex-row gap-8">
+                            <div className="max-w-xl">
+                                <p className="text-md max-w-xl">
+                                    Sensor Suhu: Bilangan Bulat
+                                    Derajat Celcius (&deg;C)
+                                </p>
+                                <p className="text-md max-w-xl">
+                                    Sensor Kelembapan: Bilangan Asli Persen (%)
+                                </p>
+                                <p className="text-md max-w-xl">
+                                    Sensor Tekanan Udara: Bilangan Asli Atmosfer (atm)
+                                </p>
+                            </div>
+                            <div className="max-w-xl">
+                                <p className="text-md max-w-xl">
+                                    Sensor Arah Angin: Bilangan Asli Derajat (&deg;)
+                                </p>
+                                <p className="text-md max-w-xl">
+                                    Sensor Kecepatan Angin: Bilangan Asli Meter per Sekon (m/s)
+                                </p>
+                            </div>
                         </article>
                     </section>
-                    <aside className="w-2/5 h-auto">
-                        <div className="w-full h-full bg-[#A7D7C5]/40 shadow-md rounded-lg">
-                            <header className="border-b-gray-400 border-2 px-6 py-1">
-                                <h4 className="text-lg font-bold">
-                                    Berita Terkini
-                                </h4>
-                            </header>
-                            <section className="w-full grid grid-flow-col px-6 py-2 gap-3">
-                                <figure className="w-24 h-24">
-                                    <img
-                                        className="w-full h-full bg-cover"
-                                        src={news[0].fav}
-                                        alt="News Image"
-                                        onError={(e) =>
-                                            (e.target.src =
-                                                "https://img.freepik.com/premium-vector/image-available-icon_268104-3618.jpg")
-                                        }
-                                    />
-                                </figure>
-                                <article className="w-full col-span-4">
-                                    <header>
-                                        <a
-                                            href={`https://semarangkota.go.id/p/${news[0].id}/${news[0].url}`}
-                                        >
-                                            <h6 className="text-md font-bold hover:underline">
-                                                {news[0].titel}
-                                            </h6>
-                                        </a>
-                                    </header>
-                                    <p className="text-sm">
-                                        {news[0].tgl_publish}
-                                    </p>
-                                </article>
-                            </section>
+                </div>
+                <div className="w-full flex flex-row gap-2">
+                    <div className="w-full h-full bg-[#A7D7C5]/40 shadow-md rounded-lg">
+                        <header className="border-b-gray-400 border-2 px-6 py-1">
+                            <h4 className="text-lg font-bold">
+                                Berita Terkini
+                            </h4>
+                        </header>
+                        <div className="w-full grid grid-cols-2">
+                            {newsBody}
                         </div>
-                    </aside>
+                    </div>
                 </div>
             </section>
         </Home>
