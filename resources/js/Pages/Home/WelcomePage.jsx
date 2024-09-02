@@ -74,9 +74,9 @@ export default function Welcome({ news }) {
 
     const googleApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
-    useEffect(() => {
-        return fetchNews();
-    }, [])
+    // useEffect(() => {
+    //     return fetchNews();
+    // }, [])
 
     useEffect(() => {
         const intervalId = setInterval(() => {
