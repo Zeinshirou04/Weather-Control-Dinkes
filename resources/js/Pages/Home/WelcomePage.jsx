@@ -214,7 +214,7 @@ export default function Welcome({ googleApiKey, news }) {
                                         <p className="text-md">
                                             Curah hujan:{" "}
                                             <strong>
-                                                1<span>mm</span>
+                                                {data.rain_fall_ph}<span>mm</span>
                                             </strong>
                                         </p>
                                     </div>
