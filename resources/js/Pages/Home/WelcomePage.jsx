@@ -308,9 +308,11 @@ export default function Welcome({ googleApiKey, news }) {
                                 </figure>
                                 <article className="w-full col-span-4">
                                     <header>
-                                        <h6 className="text-md font-bold">
-                                            {news[0].titel}
-                                        </h6>
+                                        <a href={`https://semarangkota.go.id/p/${news[0].id}/${news[0].url}`}>
+                                            <h6 className="text-md font-bold hover:underline">
+                                                {news[0].titel}
+                                            </h6>
+                                        </a>
                                     </header>
                                     <p className="text-sm">
                                         {news[0].tgl_publish}
