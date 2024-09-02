@@ -306,7 +306,7 @@ export default function Welcome({ googleApiKey, news }) {
                                         alt="News Image"
                                         onError={(e) =>
                                             (e.target.src =
-                                                "https://img.freepik.com/premium-vector/image-available-icon_268104-3618.jpg'")
+                                                "https://img.freepik.com/premium-vector/image-available-icon_268104-3618.jpg")
                                         }
                                     />
                                 </figure>
