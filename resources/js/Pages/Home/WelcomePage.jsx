@@ -222,7 +222,7 @@ export default function Welcome({ news }) {
                         <div className="w-full h-40 bg-[#A7D7C5]/40 shadow-md rounded-lg flex flex-col py-2">
                             <div className="h-12 w-full border-b-gray-400 border-b-2 px-6">
                                 <h5 className="font-semibold text-gray-900 text-lg">
-                                    Cuaca dini hari di Kebun Cepoko, Semarang
+                                    Cuaca di Kebun Cepoko, Semarang
                                     Tengah
                                 </h5>
                             </div>
